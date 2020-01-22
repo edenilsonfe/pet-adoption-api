@@ -1,0 +1,9 @@
+venv__pycache__
+.pytest_cache
+venv
+.idea
+*.env
+.coverage
+test-reports/
+*.sqlite3
+*.pyc
