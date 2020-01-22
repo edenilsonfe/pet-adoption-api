@@ -1,0 +1,38 @@
+version: '3'
+
+volumes:
+  pet_adoption_postgres_data: {}
+
+services:
+  postgres:
+    image: postgres:10.7-alpine
+    volumes:
+      - pet_adoption_postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=pad
+      - POSTGRES_PASSWORD=secret
+    ports:
+      - "5432:5432"
+
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    image: pet_adoption_server
+    environment:
+      - DJANGO_DEBUG=true
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=pad
+      - DB_USER=pad
+      - DB_PASSWORD=secret
+    command: "runserver 0.0.0.0:8000"
+    restart: on-failure
+    volumes:
+      - .:/server
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    stdin_open: true
+    tty: true
