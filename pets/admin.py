@@ -4,4 +4,4 @@ from pets.models import Pet
 
 @admin.register(Pet)
 class PetAdmin(admin.ModelAdmin):
-    list_display = ["name"]
+    list_display = ("name", )
